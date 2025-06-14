@@ -6,7 +6,7 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene webxr="optionalFeatures: local-floor; requiredFeatures: bounded-floor">
       <!-- Câmera com cursor central fixo (suporta desktop e VR mobile) -->
       <a-entity camera look-controls wasd-controls>
         <a-entity 
