@@ -7,24 +7,25 @@
   </head>
   <body>
     <a-scene>
-      <!-- Câmera com cursor para interação -->
+      <!-- Câmera com cursor central fixo (suporta desktop e VR mobile) -->
       <a-entity camera look-controls wasd-controls>
-  <a-entity 
-    cursor="rayOrigin: entity; fuse: true; fuseTimeout: 1000"
-    position="0 0 -1"
-    geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
-    material="color: black; shader: flat">
-  </a-entity>
-</a-entity>
-
+        <a-entity 
+          cursor="fuse: true; fuseTimeout: 1500"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+          material="color: white; shader: flat"
+          raycaster="objects: .interativo">
+        </a-entity>
+      </a-entity>
 
       <!-- Cubo interativo -->
       <a-box class="interativo" 
              position="0 1.5 -3" 
              color="#4CC3D9" 
              depth="1" height="1" width="1"
-             hoverable
-             id="cubo">
+             id="cubo"
+             animation__hover="property: scale; startEvents: mouseenter; to: 1.2 1.2 1.2; dur: 200"
+             animation__leave="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 200">
       </a-box>
 
       <!-- Painel de informações escondido inicialmente -->
@@ -47,15 +48,13 @@
     </a-scene>
 
     <script>
-      const cubo = document.querySelector('[hoverable]');
+      const cubo = document.querySelector('#cubo');
       const painel = document.querySelector('#painel-info');
 
-      cubo.addEventListener('mouseenter', () => {
-        painel.setAttribute('visible', 'true');
-      });
-
-      cubo.addEventListener('mouseleave', () => {
-        painel.setAttribute('visible', 'false');
+      // Alterna visibilidade ao olhar (usando "click" que funciona com fuse no VR)
+      cubo.addEventListener('click', () => {
+        const visivel = painel.getAttribute('visible');
+        painel.setAttribute('visible', !visivel);
       });
     </script>
   </body>
